@@ -14,7 +14,11 @@ Pour ce faire:
 ```bash
 jq -e . glossaire.json
 ``` 
+## Trier par ordre alphabétique
 
+```bash
+jq 'to_entries | sort_by(.key) | from_entries' glossaire.json >> glossaire.json
+```
 
 ## TODO
 
