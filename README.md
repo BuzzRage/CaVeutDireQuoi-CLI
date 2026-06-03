@@ -29,3 +29,5 @@ jq 'to_entries | sort_by(.key) | from_entries' glossaire.json >> glossaire.json
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
 - Rendre insensible à la casse les item
 - Faire que "-k type" soit interprété comme "-k meta.type"
+- Lire config dans un .env ou autre
+- Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs
