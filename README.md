@@ -24,6 +24,8 @@ jq 'to_entries | sort_by(.key) | from_entries' glossaire.json >> glossaire.json
 
 - Ajouter un manuel
 - Utiliser bashly ?
-- Ajouter une commande pour ajouter une entrée au fichier
+- Ajouter une commande pour ajouter une entrée (item) au fichier glaissaire
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
+- Rendre insensible à la casse les item
+- Faire que "-k type" soit interprété comme "-k meta.type"
