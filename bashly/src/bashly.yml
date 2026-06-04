@@ -1,0 +1,42 @@
+name: cvdq-cli
+help: Traducteur d'acronymes et de sigles
+version: 0.1.0
+
+
+args:
+- name: item
+  required: true
+  help: item to look for in the glossary
+
+flags:
+- long: --key
+  short: -k
+  arg: attribute
+  help: 'Key of the attribute to look for in the .JSON file (default: "desc")'
+  default: "desc"
+
+- long: --verbose
+  short: -v
+  help: Set verbose output to true
+
+- long: --item
+  short: -i
+  arg: ITEM
+  help: item to look for in the .JSON file
+
+- long: --file
+  short: -f
+  arg: JSON
+  help: '.JSON file to load as a glossary (default: "glossaire.json")'
+  default: "glossaire.json"
+
+examples:
+- cvdq-cli SNCF
+- cvdq-cli -f "glossaire-reseau.json" IETF
+- cvdq-cli -k desc IETF
+- cvdq-cli -h
+
+environment_variables:
+- name: default_glossary
+  help: Set the default glossary file to "glossaire.json"
+
