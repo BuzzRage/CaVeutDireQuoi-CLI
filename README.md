@@ -26,7 +26,6 @@ jq 'to_entries | sort_by(.key) | from_entries' glossaire.json >> glossaire.json
 ## TODO
 
 - Ajouter un manuel
-- Utiliser bashly ?
 - Ajouter une commande pour ajouter une entrée (item) au fichier glaissaire
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
@@ -34,3 +33,4 @@ jq 'to_entries | sort_by(.key) | from_entries' glossaire.json >> glossaire.json
 - Faire que "-k type" soit interprété comme "-k meta.type"
 - Lire config dans un .env ou autre
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs
+- ajout d'une option "-all" pour afficher toutes les infos (item : long_form : desc : type)
