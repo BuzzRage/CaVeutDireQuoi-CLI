@@ -3,6 +3,13 @@ help: Traducteur d'acronymes et de sigles
 version: 0.1.0
 
 
+# Proporties for mandoc renderer.
+# Run `bashly render :mandoc --about` for more info.
+x_mandoc_authors: BuzzRage
+x_mandoc_footer: |-
+  # ISSUE TRACKER
+  Report issues at <https://github.com/BuzzRage/CaVeutDireQuoi-CLI/issues>
+
 args:
 - name: item
   required: true
