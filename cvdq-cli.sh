@@ -80,6 +80,10 @@ while getopts "hf:i:k:v" opt; do
             verbose=true
             log "Verbose mode enabled"
             ;;
+        *)
+            show_usage
+            exit 1
+            ;;
     esac
 done
 shift $((OPTIND - 1))
