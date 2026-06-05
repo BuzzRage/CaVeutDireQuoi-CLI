@@ -4,12 +4,12 @@
 ## echo "# Feel free to edit this file; your changes will persist when regenerating."
 ## inspect_args
 
+# Variables
 # Available keys
-keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.source' )
-
-selected_key=${args[--key]}
-item=${args[item]}
-file=${args[--file]}
+declare -g -A keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.source' )
+declare -g selected_key=${args[--key]}
+declare -g item=${args[item]}
+declare -g file=${args[--file]}
 
 if [[ ${args[--verbose]} ]]; then
     verbose=true
