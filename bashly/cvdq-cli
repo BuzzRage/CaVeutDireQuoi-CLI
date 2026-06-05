@@ -251,6 +251,10 @@ log(){
 # :command.parse_requirements
 parse_requirements() {
   local key
+  
+  if [ "$#" -eq 0 ]; then
+    cvdq_cli_usage
+  fi
 
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
