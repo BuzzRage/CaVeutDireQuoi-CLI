@@ -42,7 +42,7 @@ cvdq_cli_usage() {
   printf "cvdq-cli - Traducteur d'acronymes et de sigles\n\n"
 
   printf "%s\n" "$(green_bold "Usage:")"
-  printf "  cvdq-cli ITEM [OPTIONS]\n"
+  printf "  cvdq-cli \033[0;31m ITEM \033[0m [OPTIONS]\n"
   printf "  cvdq-cli --help | -h\n"
   printf "  cvdq-cli --version\n"
   echo
@@ -55,8 +55,8 @@ cvdq_cli_usage() {
     # :command.usage_flags
     # :flag.usage
     printf "  %s\n" "$(red "--key, -k ATTRIBUTE")"
-    printf "    Key of the attribute to look for in the .JSON file (default: \"desc\")\n"
-    printf "    %s\n" "Default: desc"
+    printf "    Key of the attribute to look for in the .JSON file.\n"
+    printf "    %s\n" "Default: $(cyan "desc")"
     echo
 
     # :flag.usage
@@ -71,8 +71,8 @@ cvdq_cli_usage() {
 
     # :flag.usage
     printf "  %s\n" "$(red "--file, -f JSON")"
-    printf "    .JSON file to load as a glossary (default: \"glossaire.json\")\n"
-    printf "    %s\n" "Default: glossaire.json"
+    printf "    .JSON file to load as a glossary.\n"
+    printf "    %s\n" "Default: $(cyan "glossaire.json")"
     echo
 
     # :command.usage_fixed_flags

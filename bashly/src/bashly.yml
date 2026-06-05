@@ -19,7 +19,7 @@ flags:
 - long: --key
   short: -k
   arg: attribute
-  help: 'Key of the attribute to look for in the .JSON file (default: "desc")'
+  help: 'Key of the attribute to look for in the .JSON file'
   default: "desc"
 
 - long: --verbose
@@ -34,7 +34,7 @@ flags:
 - long: --file
   short: -f
   arg: JSON
-  help: '.JSON file to load as a glossary (default: "glossaire.json")'
+  help: '.JSON file to load as a glossary'
   default: "glossaire.json"
 
 examples:
