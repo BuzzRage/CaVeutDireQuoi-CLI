@@ -22,15 +22,20 @@ jq -e . glossaire.json
 ```bash
 jq 'to_entries | sort_by(.key) | from_entries' glossaire.json >> glossaire.json
 ```
+## Afficher le manuel
+
+```bash
+man docs/cvdq-cli.1 
+```
 
 ## TODO
 
-- Ajouter un manuel
-- Ajouter une commande pour ajouter une entrée (item) au fichier glaissaire
+- Ajouter une commande pour ajouter une entrée (item) au fichier glaussaire
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
+- Ajout de requirements si dev (ruby / bashly)
 - Rendre insensible à la casse les item
 - Faire que "-k type" soit interprété comme "-k meta.type"
-- Lire config dans un .env ou autre
+- Lire config dans un .env ou autre ( faire .env.exemple )
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs
-- ajout d'une option "-all" pour afficher toutes les infos (item : long_form : desc : type)
+- ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
