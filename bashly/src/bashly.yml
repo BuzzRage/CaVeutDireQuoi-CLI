@@ -1,0 +1,49 @@
+name: cvdq-cli
+help: Traducteur d'acronymes et de sigles
+version: 1.2.0
+
+
+# Proporties for mandoc renderer.
+# Run `bashly render :mandoc --about` for more info.
+x_mandoc_authors: BuzzRage
+x_mandoc_footer: |-
+  # ISSUE TRACKER
+  Report issues at <https://github.com/BuzzRage/CaVeutDireQuoi-CLI/issues>
+
+args:
+- name: item
+  required: true
+  help: item to look for in the glossary
+
+flags:
+- long: --key
+  short: -k
+  arg: KEY
+  help: 'Key of the attribute to look for in the .JSON file'
+  default: "desc"
+
+- long: --verbose
+  short: -v
+  help: Set verbose output to true
+
+- long: --item
+  short: -i
+  arg: ITEM
+  help: item to look for in the .JSON file
+
+- long: --file
+  short: -f
+  arg: FILE
+  help: '.JSON file to load as a glossary'
+  default: "glossaire.json"
+
+examples:
+- cvdq-cli SNCF
+- cvdq-cli -f "glossaire-reseau.json" IETF
+- cvdq-cli -k desc IETF
+- cvdq-cli -h
+
+environment_variables:
+- name: default_glossary
+  help: Set the default glossary file to "glossaire.json"
+

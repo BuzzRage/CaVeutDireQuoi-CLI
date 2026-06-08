@@ -13,12 +13,93 @@ fi
 root_command() {
   # src/root_command.sh
 
+  # Variables
   # Available keys
-  keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.source' )
+  declare -g -A keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.source' )
+  declare -g selected_key=${args[--key]}
+  declare -g item=${args[item]}
+  declare -g file=${args[--file]}
 
-  selected_key=${args[--key]}
-  item=${args[item]}
-  file=${args[--file]}
+  # #
+
+  # #
+
+  # #
+
+  # # # Default settings
+  # # selected_key=$default_selected_key
+  # # DB=$default_file
+  # # if [ "$#" -eq 1 ]; then
+  # #     ABBR="$1"
+  # # fi
+  # #
+
+  # # while getopts "hf:i:k:v" opt; do
+  # #     case $opt in
+  # #         f)
+  # #             DB=$OPTARG
+  # #             ;;
+  # #         h)
+  # #             show_usage
+  # #             exit 0
+  # #             ;;
+  # #         i)
+  # #             ABBR=$OPTARG
+  # #             ;;
+  # #         k)
+  # #             selected_key=$OPTARG
+  # #             ;;
+  # #         v)
+  # #             verbose=true
+  # #             log "Verbose mode enabled"
+  # #             ;;
+  # #         *)
+  # #             show_usage
+  # #             exit 1
+  # #             ;;
+  # #     esac
+  # # done
+  # # shift $((OPTIND - 1))
+  # #
+
+  # #
+
+  # # # Verifications
+  # #
+
+  # # if [[ -v ABBR ]]; then
+  # #     log "ABBR aldready defined."
+  # # else
+  # #     log "Item $1 will be searched."
+  # #     ABBR=$1
+  # # fi
+  # #
+
+  # #
+
+  # # if [ -f "$DB" ]; then
+  # #     log "Input file $DB will be used as a glossary."
+  # # else
+  # #     log "Error: Glossary file not found: $DB" >&2
+  # #     exit 3
+  # # fi
+  # #
+
+  # # for key in "${keys[@]}"; do
+  # #     if [ "$selected_key" == "$key" ]; then
+  # #         log "Selected key $selected_key will be used as a key."
+  # #         valid_key=true
+  # #     fi
+  # # done
+  # #
+
+  # # if [ ! "$valid_key" == true ]; then
+  # #     log "Error: $selected_key is not a valid key. Valid keys: $keys"
+  # #     exit 2
+  # # fi
+  # #
+
+  # # echo "$ABBR : $(get_attribute "$ABBR" "$DB")"
 
   if [[ ${args[--verbose]} ]]; then
       verbose=true
@@ -54,8 +135,8 @@ cvdq_cli_usage() {
 
     # :command.usage_flags
     # :flag.usage
-    printf "  %s\n" "$(red "--key, -k ATTRIBUTE")"
-    printf "    Key of the attribute to look for in the .JSON file.\n"
+    printf "  %s\n" "$(red "--key, -k KEY")"
+    printf "    Key of the attribute to look for in the .JSON file\n"
     printf "    %s\n" "Default: $(cyan "desc")"
     echo
 
@@ -70,8 +151,8 @@ cvdq_cli_usage() {
     echo
 
     # :flag.usage
-    printf "  %s\n" "$(red "--file, -f JSON")"
-    printf "    .JSON file to load as a glossary.\n"
+    printf "  %s\n" "$(red "--file, -f FILE")"
+    printf "    .JSON file to load as a glossary\n"
     printf "    %s\n" "Default: $(cyan "glossaire.json")"
     echo
 
@@ -246,15 +327,105 @@ log(){
     fi
 }
 
+# src/lib/show_usage.sh
+# Legacy show usage (homeade, not bashly-generated)
+show_usage(){
+    echo -e "Usage : $0 [OPTION]... \033[0;31m ITEM \033[0m";
+    echo -e "\t -h       \t Show this message"
+    echo -e "\t -i \033[0;31m ITEM \033[0m \t Look for \033[0;31m ITEM \033[0m"
+    echo -e "\t -f \033[0;31m FILE \033[0m \t Use \033[0;31m FILE \033[0m as glossary (default : glossaire.json)"
+    echo -e "\t -k \033[0;31m KEY  \033[0m \t Use \033[0;31m KEY \033[0m as attribute to look for (default : desc)"
+    echo -e "\t -v      \t Enable verbose mode \n"
+    echo -e "List of valid \033[0;31m KEY  \033[0m :"
+    for key in ${keys[@]}; do
+        echo -e "\t \033[0;35m $key \033[0m"
+    done
+    exit 0;
+}
+
+# Custom cvdq_cli_usage ( bashly-generated + additionnal manual edits )
+cvdq_cli_usage() {
+  printf "cvdq-cli - Traducteur d'acronymes et de sigles\n\n"
+
+  printf "%s\n" "$(green_bold "Usage:")"
+  printf "  cvdq-cli \033[0;31m ITEM \033[0m [OPTIONS]\n"
+  printf "  cvdq-cli --help | -h\n"
+  printf "  cvdq-cli --version\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    # :command.usage_options
+    printf "%s\n" "$(green_bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(red "--key, -k ATTRIBUTE")"
+    printf "    Key of the attribute to look for in the .JSON file.\n"
+    printf "    %s\n" "Default: $(cyan "desc")"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--verbose, -v")"
+    printf "    Set verbose output to true\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--item, -i ITEM")"
+    printf "    item to look for in the .JSON file\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--file, -f JSON")"
+    printf "    .JSON file to load as a glossary.\n"
+    printf "    %s\n" "Default: $(cyan "glossaire.json")"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(red "--help, -h")"
+    printf "    Show this help\n"
+    echo
+    printf "  %s\n" "$(red "--version")"
+    printf "    Show version number\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "$(green_bold "Arguments:")"
+
+    # :argument.usage
+    printf "  %s\n" "$(yellow "ITEM")"
+    printf "    item to look for in the glossary\n"
+    echo
+
+    # :command.usage_environment_variables
+    printf "%s\n" "$(green_bold "Environment Variables:")"
+
+    # :environment_variable.usage
+    printf "  %s\n" "$(magenta "DEFAULT_GLOSSARY")"
+    printf "    Set the default glossary file to \"glossaire.json\"\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(green_bold "Examples:")"
+    printf "  cvdq-cli SNCF\n"
+    printf "  cvdq-cli -f \"glossaire-reseau.json\" IETF\n"
+    printf "  cvdq-cli -k desc IETF\n"
+    printf "  cvdq-cli -h\n"
+    echo
+
+  fi
+}
+
 # :command.command_functions
 
 # :command.parse_requirements
 parse_requirements() {
   local key
-  
+
   if [ "$#" -eq 0 ]; then
-    cvdq_cli_usage
+     cvdq_cli_usage
   fi
+
 
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -298,7 +469,7 @@ parse_requirements() {
           shift
           shift
         else
-          printf "%s\n" "--key requires an argument: --key, -k ATTRIBUTE" >&2
+          printf "%s\n" "--key requires an argument: --key, -k KEY" >&2
           exit 1
         fi
         ;;
@@ -334,7 +505,7 @@ parse_requirements() {
           shift
           shift
         else
-          printf "%s\n" "--file requires an argument: --file, -f JSON" >&2
+          printf "%s\n" "--file requires an argument: --file, -f FILE" >&2
           exit 1
         fi
         ;;
@@ -364,6 +535,12 @@ parse_requirements() {
   # :command.required_args_filter
   if [[ -z ${args['item']+x} ]]; then
     printf "missing required argument: ITEM\nusage: cvdq-cli ITEM [OPTIONS]\n" >&2
+    # :command.examples_on_error
+    printf "examples:\n" >&2
+    printf "  cvdq-cli SNCF\n" >&2
+    printf "  cvdq-cli -f \"glossaire-reseau.json\" IETF\n" >&2
+    printf "  cvdq-cli -k desc IETF\n" >&2
+    printf "  cvdq-cli -h\n" >&2
 
     exit 1
   fi
@@ -376,7 +553,7 @@ parse_requirements() {
 
 # :command.initialize
 initialize() {
-  declare -g version="0.1.0"
+  declare -g version="1.2.0"
   set -e
 
 }
