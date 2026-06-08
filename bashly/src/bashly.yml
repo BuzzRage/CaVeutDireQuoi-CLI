@@ -1,6 +1,6 @@
 name: cvdq-cli
 help: Traducteur d'acronymes et de sigles
-version: 0.1.0
+version: 1.2.0
 
 
 # Proporties for mandoc renderer.
