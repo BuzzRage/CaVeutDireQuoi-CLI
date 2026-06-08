@@ -30,7 +30,7 @@ man docs/cvdq-cli.1
 
 ## TODO
 
-- Ajouter une commande pour ajouter une entrée (item) au fichier glaussaire
+- Ajouter une commande pour ajouter une entrée (item) au fichier glossaire
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
 - Ajout de requirements si dev (ruby / bashly)
@@ -39,3 +39,4 @@ man docs/cvdq-cli.1
 - Lire config dans un .env ou autre ( faire .env.exemple )
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs
 - ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
+- clean repos
