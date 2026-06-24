@@ -11,9 +11,9 @@ x_mandoc_footer: |-
   Report issues at <https://github.com/BuzzRage/CaVeutDireQuoi-CLI/issues>
 
 args:
-- name: item
-  required: true
-  help: item to look for in the glossary
+- name: FILE
+  help: '.JSON file to load as a glossary'
+  default: "glossaire.json"
 
 flags:
 - long: --key
@@ -31,11 +31,9 @@ flags:
   arg: ITEM
   help: item to look for in the .JSON file
 
-- long: --file
-  short: -f
-  arg: FILE
-  help: '.JSON file to load as a glossary'
-  default: "glossaire.json"
+- long: --sort
+  short: -s
+  help: "Sort the .JSON"
 
 examples:
 - cvdq-cli SNCF

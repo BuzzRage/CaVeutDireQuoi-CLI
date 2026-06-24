@@ -8,8 +8,8 @@
 # Available keys
 declare -g -A keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.source' )
 declare -g selected_key=${args[--key]}
-declare -g item=${args[item]}
-declare -g file=${args[--file]}
+declare -g item=${args[--item]}
+declare -g file=${args['FILE']}
 
 
 ## Default selected key : desc 
@@ -92,6 +92,11 @@ fi
 
 log "$item $file $selected_key"
 
+if [[ ${args[--sort]} ]]; then
+    sort_json
+    echo "$file is sorted"
+    exit 0
+fi
 
 echo "$item : $(get_attribute)"
 

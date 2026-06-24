@@ -17,11 +17,12 @@ Pour ce faire:
 ```bash
 jq -e . glossaire.json
 ``` 
-## Trier par ordre alphabétique
 
+## Trier un glossaire par ordre alphabétique
 ```bash
-jq 'to_entries | sort_by(.key) | from_entries' glossaire.json >> glossaire.json
-```
+cvdq-cli FILE --sort
+``̀` 
+
 ## Afficher le manuel
 
 ```bash
@@ -40,3 +41,4 @@ man docs/cvdq-cli.1
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs
 - ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
 - clean repos
+- improve color management for docs
