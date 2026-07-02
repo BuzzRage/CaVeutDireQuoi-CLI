@@ -23,6 +23,14 @@
       "source": "glossaire.json"
     }
   },
+  "DNE": {
+    "long_form": "Direction du Numérique pour l'Éducation",
+    "desc": "La direction du numérique pour l’Éducation a pour mission l'impulsion et l'accompagnement de la transformation numérique du système éducatif au bénéfice de l'ensemble de la communauté éducative ainsi que des agents. Elle a la particularité d’être à la fois une direction en charge de la partie SI / infrastructure ministérielle, ainsi que de la partie numérique pédagogique et éducative.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire-men.json"
+    }
+  },
   "EdF": {
     "long_form": "Électricité de France",
     "desc": "Entreprise publique française de production et de fourniture d'électricité, détenue à 100% par l'État français. C'est un ÉPIC, fondé par Marcel Paul (PCF) dans le cadre du CNR.",
@@ -45,6 +53,14 @@
     "meta": {
       "type": "sigle",
       "source": "glossaire.json"
+    }
+  },
+  "MESRI": {
+    "long_form": "Ministère de l'Enseignement Supérieur, de la Recherche et de l’Innovation",
+    "desc": "Ministère de l'Enseignement Supérieur, de la Recherche et de l’Innovation.",
+    "meta": {
+      "type": "acronyme",
+      "source": "glossaire-men.json"
     }
   },
   "PCF": {
@@ -76,7 +92,7 @@
     "desc": "Services Numériques Partagés.",
     "meta": {
       "type": "sigle",
-      "source": "glossaire.json"
+      "source": "glossaire-men.json"
     }
   },
   "SPNA": {
@@ -84,7 +100,7 @@
     "desc": "Le Pôle SPNA (Services et Produits Numériques pour l’Agent) est une équipe nationale de la Direction du Numérique pour l’Éducation, relevant de la sous-direction du socle numérique - SOCLE et du bureau de l’ingénierie des services d’infrastructure (Socle 2). Il met à disposition des personnels du ministère de l’Éducation nationale des services numériques collaboratifs destinés à faciliter leur travail au quotidien, tout en proposant des dispositifs d’accompagnement pour l’adoption et l’appropriation de ces outils.",
     "meta": {
       "type": "sigle",
-      "source": "glossaire.json"
+      "source": "glossaire-men.json"
     }
   },
   "ÉPIC": {

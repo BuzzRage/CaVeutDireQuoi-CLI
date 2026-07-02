@@ -7,36 +7,48 @@ sort_json(){
         exit 1
     fi
 
-
-    # TODO : Make accent sorted normally ( é should be with e )
-    #
-    # jq '
-    # to_entries
-    # | map(. as $e
-    #       | {
-    #           e: $e,
-    #           sortkey: ($e.key
-    #             | gsub("é";"e")
-    #             | gsub("è";"e")
-    #             | gsub("ê";"e")
-    #             | gsub("ë";"e")
-    #             | gsub("à";"a")
-    #             | gsub("â";"a")
-    #             | gsub("ä";"a")
-    #             | gsub("ç";"c")
-    #             | gsub("î";"i")
-    #             | gsub("ï";"i")
-    #             | gsub("ô";"o")
-    #             | gsub("ö";"o")
-    #             | gsub("ù";"u")
-    #             | gsub("û";"u")
-    #             | gsub("ü";"u")
-    #           )
-    #         })
-    # | sort_by(.sortkey, (.e.key))
-    # | map(.e)
-    # | from_entries
-    # ' file.json
+    jq '
+    to_entries
+    | map(. as $e
+          | {
+              e: $e,
+              sortkey: ($e.key
+                | gsub("é";"e")
+                | gsub("è";"e")
+                | gsub("ê";"e")
+                | gsub("ë";"e")
+                | gsub("à";"a")
+                | gsub("â";"a")
+                | gsub("ä";"a")
+                | gsub("ç";"c")
+                | gsub("î";"i")
+                | gsub("ï";"i")
+                | gsub("ô";"o")
+                | gsub("ö";"o")
+                | gsub("ù";"u")
+                | gsub("û";"u")
+                | gsub("ü";"u")
+                | gsub("É";"E")
+                | gsub("È";"E")
+                | gsub("Ê";"E")
+                | gsub("Ë";"E")
+                | gsub("À";"A")
+                | gsub("Â";"A")
+                | gsub("Ä";"A")
+                | gsub("Ç";"C")
+                | gsub("Î";"I")
+                | gsub("Ï";"I")
+                | gsub("Ô";"O")
+                | gsub("Ö";"O")
+                | gsub("Ù";"U")
+                | gsub("Û";"U")
+                | gsub("Ü";"U")
+              )
+            })
+    | sort_by(.sortkey, (.e.key))
+    | map(.e)
+    | from_entries
+    ' $file
 
 
 

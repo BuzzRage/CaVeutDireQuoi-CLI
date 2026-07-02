@@ -36,9 +36,9 @@ flags:
   help: "Sort the .JSON"
 
 examples:
-- cvdq-cli SNCF
-- cvdq-cli -f "glossaire-reseau.json" IETF
-- cvdq-cli -k desc IETF
+- cvdq-cli "glossaire-reseau.json" -i IETF
+- cvdq-cli -k desc -i IETF
+- cvdq-cli --sort "glossaire-reseau.json"
 - cvdq-cli -h
 
 environment_variables:
