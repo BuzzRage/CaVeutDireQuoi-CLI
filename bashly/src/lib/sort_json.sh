@@ -7,6 +7,8 @@ sort_json(){
         exit 1
     fi
 
+    tmp=$(mktemp)
+
     jq '
     to_entries
     | map(. as $e
@@ -48,12 +50,7 @@ sort_json(){
     | sort_by(.sortkey, (.e.key))
     | map(.e)
     | from_entries
-    ' $file
-
-
-
-    tmp=$(mktemp)
-    jq 'to_entries | sort_by(.key) | from_entries' "$file" > "$tmp"
+    ' "$file" > "$tmp"
     mv "$tmp" "$file"
 }
 

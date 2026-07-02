@@ -31,6 +31,14 @@
       "source": "glossaire-men.json"
     }
   },
+  "ÉPIC": {
+    "long_form": "Établissement Publique à caractère Industriel et Commercial",
+    "desc": "En France, un établissement public à caractère industriel et commercial (ou EPIC) est une personne morale de droit public ayant pour but la gestion d'une activité de service public de nature industrielle et commerciale (bien qu’il puisse aussi assurer la gestion d’un service public administratif : il s’agit alors d’un établissement public Janus). .",
+    "meta": {
+      "type": "acronyme",
+      "source": "glossaire.json"
+    }
+  },
   "EdF": {
     "long_form": "Électricité de France",
     "desc": "Entreprise publique française de production et de fourniture d'électricité, détenue à 100% par l'État français. C'est un ÉPIC, fondé par Marcel Paul (PCF) dans le cadre du CNR.",
@@ -101,14 +109,6 @@
     "meta": {
       "type": "sigle",
       "source": "glossaire-men.json"
-    }
-  },
-  "ÉPIC": {
-    "long_form": "Établissement Publique à caractère Industriel et Commercial",
-    "desc": "En France, un établissement public à caractère industriel et commercial (ou EPIC) est une personne morale de droit public ayant pour but la gestion d'une activité de service public de nature industrielle et commerciale (bien qu’il puisse aussi assurer la gestion d’un service public administratif : il s’agit alors d’un établissement public Janus). .",
-    "meta": {
-      "type": "acronyme",
-      "source": "glossaire.json"
     }
   }
 }
