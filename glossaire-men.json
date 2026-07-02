@@ -1,0 +1,98 @@
+{
+  "API": {
+    "long_form": "Application Programming Interface",
+    "desc": "Interface de programmation applicative, ensemble de méthodes, de classes, de fonctions et de constantes normalisées servant d'interface par laquelle un logiciel offre des services à d'autres logiciels.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "CLI": {
+    "long_form": "Command Line Interface",
+    "desc": "Interface en ligne de commande, interface homme-machine permettant la communication entre l'utilisateur et l'ordinateur en mode textuel.",
+    "meta": {
+      "type": "acronyme",
+      "source": "glossaire.json"
+    }
+  },
+  "CNR": {
+    "long_form": "Conseil National de la Résistance",
+    "desc": "Le Conseil national de la Résistance (CNR), constitué le 27 mai 1943, est l'organisme qui dirige et coordonne les différents mouvements de la Résistance intérieure française pendant la Seconde Guerre mondiale, toutes tendances politiques comprises.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "EdF": {
+    "long_form": "Électricité de France",
+    "desc": "Entreprise publique française de production et de fourniture d'électricité, détenue à 100% par l'État français. C'est un ÉPIC, fondé par Marcel Paul (PCF) dans le cadre du CNR.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "HTTP": {
+    "long_form": "HyperText Transfer Protocol",
+    "desc": "Protocole réseau de couche applicative, utilisant le port TCP 80, servant à communiquer entre un serveur web et un client via des requêtes. Le fonctionnement est décrit dans la RFC 2616 de l'IETF.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "IETF": {
+    "long_form": "Internet Engineering Task Force",
+    "desc": "L’Internet Engineering Task Force (IETF) est un organisme de normalisation. Il élabore et promeut des standards Internet, en particulier les standards qui composent la suite des protocoles Internet (TCP/IP). L'IETF produit la plupart des nouveaux standards d'Internet. Le but du groupe est généralement la rédaction d'une ou plusieurs Request for comments (RFC), nom donné aux documents de spécification à la base d’Internet.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "PCF": {
+    "long_form": "Parti Communiste Français",
+    "desc": "Le Parti communiste français (PCF) est un parti politique français fondé en 1920. Il est issu du congrès de Tours de la Section française de l'Internationale ouvrière (SFIO) dont l'objet est l'adhésion à l'Internationale communiste ; la majorité du congrès étant en faveur de cette adhésion crée alors la Section française de l'Internationale communiste (SFIC), la minorité restant au sein de la SFIO. Le parti devient en 1921 le Parti communiste - SFIC, abrégé en PC-SFIC, puis le PCF en 1943 après la dissolution de l'Internationale communiste.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "RFC": {
+    "long_form": "Requests for comments",
+    "desc": "Les Requests for comments (RFC), littéralement « demandes de commentaires », sont une série numérotée de documents décrivant les aspects et spécifications techniques d'Internet, ou de différents matériels informatiques (routeurs, serveur DHCP). Peu de RFC sont des standards, mais tous les documents publiés par l'IETF sont des RFC.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "SNCF": {
+    "long_form": "Société Nationale des Chemins de fer Français",
+    "desc": "La Société nationale des chemins de fer français — usuellement appelée SNCF — est l'entreprise ferroviaire publique française, créée le 1er janvier 1938 par convention entre l'État et les compagnies de chemin de fer préexistantes, en application du décret-loi du 31 août 1937.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "SNP": {
+    "long_form": "Services Numériques Partagés",
+    "desc": "Services Numériques Partagés.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "SPNA": {
+    "long_form": "Services et Produits Numériques pour l’Agent",
+    "desc": "Le Pôle SPNA (Services et Produits Numériques pour l’Agent) est une équipe nationale de la Direction du Numérique pour l’Éducation, relevant de la sous-direction du socle numérique - SOCLE et du bureau de l’ingénierie des services d’infrastructure (Socle 2). Il met à disposition des personnels du ministère de l’Éducation nationale des services numériques collaboratifs destinés à faciliter leur travail au quotidien, tout en proposant des dispositifs d’accompagnement pour l’adoption et l’appropriation de ces outils.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "ÉPIC": {
+    "long_form": "Établissement Publique à caractère Industriel et Commercial",
+    "desc": "En France, un établissement public à caractère industriel et commercial (ou EPIC) est une personne morale de droit public ayant pour but la gestion d'une activité de service public de nature industrielle et commerciale (bien qu’il puisse aussi assurer la gestion d’un service public administratif : il s’agit alors d’un établissement public Janus). .",
+    "meta": {
+      "type": "acronyme",
+      "source": "glossaire.json"
+    }
+  }
+}
