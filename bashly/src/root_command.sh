@@ -10,6 +10,7 @@ declare -g -A keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.sou
 declare -g selected_key=${args[--key]}
 declare -g item=${args[--item]}
 declare -g file=${args['FILE']}
+declare -g NEW_ITEM=${args['--add']}
 
 
 ## Default selected key : desc 
@@ -95,6 +96,12 @@ log "$item $file $selected_key"
 if [[ ${args[--sort]} ]]; then
     sort_json
     echo "$file is sorted"
+    exit 0
+fi
+
+if [[ ${args[--add]} ]]; then
+    add_entry
+    echo "$NEW_ITEM is added to $file"
     exit 0
 fi
 

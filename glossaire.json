@@ -23,19 +23,19 @@
       "source": "glossaire.json"
     }
   },
-  "EdF": {
-    "long_form": "Électricité de France",
-    "desc": "Entreprise publique française de production et de fourniture d'électricité, détenue à 100% par l'État français. C'est un ÉPIC, fondé par Marcel Paul (PCF) dans le cadre du CNR.",
-    "meta": {
-      "type": "sigle",
-      "source": "glossaire.json"
-    }
-  },
   "ÉPIC": {
     "long_form": "Établissement Publique à caractère Industriel et Commercial",
     "desc": "En France, un établissement public à caractère industriel et commercial (ou EPIC) est une personne morale de droit public ayant pour but la gestion d'une activité de service public de nature industrielle et commerciale (bien qu’il puisse aussi assurer la gestion d’un service public administratif : il s’agit alors d’un établissement public Janus). .",
     "meta": {
       "type": "acronyme",
+      "source": "glossaire.json"
+    }
+  },
+  "EdF": {
+    "long_form": "Électricité de France",
+    "desc": "Entreprise publique française de production et de fourniture d'électricité, détenue à 100% par l'État français. C'est un ÉPIC, fondé par Marcel Paul (PCF) dans le cadre du CNR.",
+    "meta": {
+      "type": "sigle",
       "source": "glossaire.json"
     }
   },
@@ -52,6 +52,14 @@
     "desc": "L’Internet Engineering Task Force (IETF) est un organisme de normalisation. Il élabore et promeut des standards Internet, en particulier les standards qui composent la suite des protocoles Internet (TCP/IP). L'IETF produit la plupart des nouveaux standards d'Internet. Le but du groupe est généralement la rédaction d'une ou plusieurs Request for comments (RFC), nom donné aux documents de spécification à la base d’Internet.",
     "meta": {
       "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "LASER": {
+    "long_form": "Light Amplification by Stimulated Emission of Radiation",
+    "desc": "En français : « amplification de la lumière par émission stimulée de radiation ») est un système photonique. Il s'agit d'un appareil qui produit un rayonnement lumineux spatialement et temporellement cohérent reposant sur le processus d'émission stimulée. La lumière du laser est aussi appelée lumière cohérente. Descendant du maser, le laser s'est d'abord appelé « maser optique ».",
+    "meta": {
+      "type": "acronyme",
       "source": "glossaire.json"
     }
   },
@@ -76,6 +84,14 @@
     "desc": "La Société nationale des chemins de fer français — usuellement appelée SNCF — est l'entreprise ferroviaire publique française, créée le 1er janvier 1938 par convention entre l'État et les compagnies de chemin de fer préexistantes, en application du décret-loi du 31 août 1937.",
     "meta": {
       "type": "sigle",
+      "source": "glossaire.json"
+    }
+  },
+  "YOLO": {
+    "long_form": "You Only Live Once",
+    "desc": "Phrase de djeun's signifiant Carpe Diem",
+    "meta": {
+      "type": "acronyme",
       "source": "glossaire.json"
     }
   }

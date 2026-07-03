@@ -16,6 +16,11 @@ args:
   default: "glossaire.json"
 
 flags:
+- long: --add
+  short: -a
+  arg: NEW_ITEM
+  help: 'New Item to add in FILE'
+
 - long: --key
   short: -k
   arg: KEY

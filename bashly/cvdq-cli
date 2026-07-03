@@ -19,6 +19,7 @@ root_command() {
   declare -g selected_key=${args[--key]}
   declare -g item=${args[--item]}
   declare -g file=${args['FILE']}
+  declare -g NEW_ITEM=${args['--add']}
 
   # #
 
@@ -115,6 +116,12 @@ root_command() {
       exit 0
   fi
 
+  if [[ ${args[--add]} ]]; then
+      add_entry
+      echo "$NEW_ITEM is added to $file"
+      exit 0
+  fi
+
   echo "$item : $(get_attribute)"
 
 }
@@ -140,6 +147,11 @@ cvdq_cli_usage() {
     printf "%s\n" "$(green_bold "Options:")"
 
     # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(red "--add, -a NEW_ITEM")"
+    printf "    New Item to add in FILE\n"
+    echo
+
     # :flag.usage
     printf "  %s\n" "$(red "--key, -k KEY")"
     printf "    Key of the attribute to look for in the .JSON file\n"
@@ -324,6 +336,41 @@ get_attribute(){
 
     printf "%s\n" "$ATTR"
 
+}
+
+set_attribute(){
+    # TODO
+    echo "TODO"
+}
+
+add_entry(){
+        echo "=== Ajout d'une entrée : $(red "$NEW_ITEM") ==="
+        read -rp "$(green long_form) : "    LONG_FORM ; keys['long_form']=$LONG_FORM
+        read -rp "$(green desc) : "         DESC      ; keys['desc']=$DESC
+        read -rp "$(green type) : "         TYPE      ; keys['meta.type']=$TYPE
+        read -rp "$(green source) : "       SOURCE    ; keys['meta.source']=$SOURCE
+
+        # Construit le JSON en échappant proprement les caractères spéciaux
+        json=$(  jq -n \
+            --arg key "$NEW_ITEM" \
+            --arg long_form "${keys['long_form']}" \
+            --arg desc "${keys['desc']}" \
+            --arg type "${keys['meta.type']}" \
+            --arg source "${keys['meta.source']}" \
+            '{($key): {long_form: $long_form, desc: $desc, meta: {type: $type, source: $source}}}')
+
+        if [[ -f "$file" ]]; then
+            tmp="$(mktemp)"
+            jq --argjson new "$json" '. * $new' "$file" > "$tmp"
+            mv "$tmp" "$file"
+            sort_json
+            log "Ajout/merge effectué dans: $file"
+        else
+            echo "$json" > "$file"
+            log "Fichier créé: $file"
+        fi
+        echo "Contenu ajouté:"
+        echo "$json" | jq .
 }
 
 # src/lib/log.sh
@@ -518,6 +565,20 @@ parse_requirements() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
+      # :flag.case
+      --add | -a)
+
+        # :flag.case_arg
+        if [[ -n ${2+x} ]]; then
+          args['--add']="$2"
+          shift
+          shift
+        else
+          printf "%s\n" "--add requires an argument: --add, -a NEW_ITEM" >&2
+          exit 1
+        fi
+        ;;
+
       # :flag.case
       --key | -k)
 
