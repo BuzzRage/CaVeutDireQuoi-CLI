@@ -203,6 +203,7 @@ cvdq_cli_usage() {
     printf "  cvdq-cli \"glossaire-reseau.json\" -i IETF\n"
     printf "  cvdq-cli -k desc -i IETF\n"
     printf "  cvdq-cli --sort \"glossaire-reseau.json\"\n"
+    printf "  cvdq-cli --add UNESCO\n"
     printf "  cvdq-cli -h\n"
     echo
 
@@ -344,7 +345,7 @@ set_attribute(){
 }
 
 add_entry(){
-        echo "=== Ajout d'une entrée : $(red "$NEW_ITEM") ==="
+        echo "=== Fichier : $(cyan "$file") <- Ajout de l'entrée : $(red "$NEW_ITEM") ==="
         read -rp "$(green long_form) : "    LONG_FORM ; keys['long_form']=$LONG_FORM
         read -rp "$(green desc) : "         DESC      ; keys['desc']=$DESC
         read -rp "$(green type) : "         TYPE      ; keys['meta.type']=$TYPE
@@ -460,9 +461,9 @@ cvdq_cli_usage() {
 
     # :command.usage_examples
     printf "%s\n" "$(green_bold "Examples:")"
-    printf "  cvdq-cli SNCF\n"
-    printf "  cvdq-cli -f \"glossaire-reseau.json\" IETF\n"
-    printf "  cvdq-cli -k desc IETF\n"
+    printf "  cvdq-cli $(red "SNCF")\n"
+    printf "  cvdq-cli -f \"$(cyan "glossaire-reseau.json")\" $(red "IETF")\n"
+    printf "  cvdq-cli -k $(cyan desc) $(red "IETF")\n"
     printf "  cvdq-cli -h\n"
     echo
 

@@ -77,9 +77,9 @@ cvdq_cli_usage() {
 
     # :command.usage_examples
     printf "%s\n" "$(green_bold "Examples:")"
-    printf "  cvdq-cli SNCF\n"
-    printf "  cvdq-cli -f \"glossaire-reseau.json\" IETF\n"
-    printf "  cvdq-cli -k desc IETF\n"
+    printf "  cvdq-cli $(red "SNCF")\n"
+    printf "  cvdq-cli -f \"$(cyan "glossaire-reseau.json")\" $(red "IETF")\n"
+    printf "  cvdq-cli -k $(cyan desc) $(red "IETF")\n"
     printf "  cvdq-cli -h\n"
     echo
 

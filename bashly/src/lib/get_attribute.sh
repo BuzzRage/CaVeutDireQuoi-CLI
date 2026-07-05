@@ -20,7 +20,7 @@ set_attribute(){
 }
 
 add_entry(){
-        echo "=== Ajout d'une entrée : $(red "$NEW_ITEM") ==="
+        echo "=== Fichier : $(cyan "$file") <- Ajout de l'entrée : $(red "$NEW_ITEM") ==="
         read -rp "$(green long_form) : "    LONG_FORM ; keys['long_form']=$LONG_FORM
         read -rp "$(green desc) : "         DESC      ; keys['desc']=$DESC
         read -rp "$(green type) : "         TYPE      ; keys['meta.type']=$TYPE
