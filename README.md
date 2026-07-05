@@ -20,18 +20,22 @@ jq -e . glossaire.json
 
 ## Trier un glossaire par ordre alphabétique
 ```bash
-cvdq-cli FILE --sort
-``̀` 
+cvdq-cli --sort FILE
+```
 
 ## Afficher le manuel
 
 ```bash
 man docs/cvdq-cli.1 
 ```
+## Ajouter une entrée
+
+```bash
+cvdq-cli --add UNESCO glossaire-ONU.json
+```
 
 ## TODO
 
-- Ajouter une commande pour ajouter une entrée (item) au fichier glossaire
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
 - Ajout de requirements si dev (ruby / bashly)
