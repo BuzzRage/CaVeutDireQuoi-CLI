@@ -36,6 +36,7 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 
 ## TODO
 
+- Réorganiser l'architecture du projet
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
 - Ajout de requirements si dev (ruby / bashly)
