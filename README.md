@@ -6,7 +6,7 @@ Outil pour expliquer les sigles et les abbréviations.
 Le fichier peut être personnalisable pour ajouter des éléments.
 Peut très bien être utilisé à titre personnel ou bien en contexte professionnel pour rapidement retrouver le sens du jargon technique et organisationnel de votre milieu professionnel.
 
-<img width="549" height="718" alt="image" src="https://github.com/user-attachments/assets/fa05d730-1b3d-40df-a999-52b22a2a2721" />
+<img width="549" height="718" alt="image" src="https://github.com/user-attachments/assets/3ea933a6-35f6-48d2-b471-964f06b15049" />
 
 ## Vérifier le fichier `glossaire.json`
 
