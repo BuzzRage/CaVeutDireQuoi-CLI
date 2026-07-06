@@ -43,7 +43,7 @@ flags:
 examples:
 - cvdq-cli "glossaire-reseau.json" -i IETF
 - cvdq-cli -k desc -i IETF
-- cvdq-cli --sort "glossaire-reseau.json"
+- cvdq-cli --sort "glossaire-reseau.json" --verbose
 - cvdq-cli --add UNESCO
 - cvdq-cli -h
 

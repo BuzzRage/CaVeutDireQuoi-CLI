@@ -45,5 +45,4 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 - Lire config dans un .env ou autre ( faire .env.exemple )
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs
 - ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
-- clean repos
 - improve color management for docs

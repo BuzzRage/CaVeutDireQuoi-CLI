@@ -45,12 +45,6 @@ cvdq_cli_usage() {
     printf "    item to look for in the .JSON file\n"
     echo
 
-    # :flag.usage
-    printf "  %s\n" "$(red "--file, -f JSON")"
-    printf "    .JSON file to load as a glossary.\n"
-    printf "    %s\n" "Default: $(cyan "glossaire.json")"
-    echo
-
     # :command.usage_fixed_flags
     printf "  %s\n" "$(red "--help, -h")"
     printf "    Show this help\n"
@@ -72,7 +66,7 @@ cvdq_cli_usage() {
 
     # :environment_variable.usage
     printf "  %s\n" "$(magenta "DEFAULT_GLOSSARY")"
-    printf "    Set the default glossary file to \"glossaire.json\"\n"
+    printf "    Set the default glossary file to \"$(cyan "glossaire.json")\"\n"
     echo
 
     # :command.usage_examples
