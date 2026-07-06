@@ -6,8 +6,7 @@ Outil pour expliquer les sigles et les abbréviations.
 Le fichier peut être personnalisable pour ajouter des éléments.
 Peut très bien être utilisé à titre personnel ou bien en contexte professionnel pour rapidement retrouver le sens du jargon technique et organisationnel de votre milieu professionnel.
 
-<img width="591" height="717" alt="image" src="https://github.com/user-attachments/assets/f421b320-9031-4b31-8bc9-fbbd89cdeb24" />
-
+<img width="549" height="718" alt="image" src="https://github.com/user-attachments/assets/fa05d730-1b3d-40df-a999-52b22a2a2721" />
 
 ## Vérifier le fichier `glossaire.json`
 
@@ -45,5 +44,4 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 - Lire config dans un .env ou autre ( faire .env.exemple )
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs
 - ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
-- clean repos
 - improve color management for docs
