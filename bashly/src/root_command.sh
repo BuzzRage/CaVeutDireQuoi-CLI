@@ -93,6 +93,12 @@ fi
 
 log "$item $file $selected_key"
 
+if [[ ${args[--format]} ]]; then
+    format_json
+    echo "$file is formatted."
+    exit 0
+fi
+
 if [[ ${args[--sort]} ]]; then
     sort_json
     echo "$file is sorted"

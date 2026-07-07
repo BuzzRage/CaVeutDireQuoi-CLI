@@ -110,6 +110,12 @@ root_command() {
 
   log "$item $file $selected_key"
 
+  if [[ ${args[--format]} ]]; then
+      format_json
+      echo "$file is formatted."
+      exit 0
+  fi
+
   if [[ ${args[--sort]} ]]; then
       sort_json
       echo "$file is sorted"
@@ -173,6 +179,11 @@ cvdq_cli_usage() {
     printf "    Sort the .JSON\n"
     echo
 
+    # :flag.usage
+    printf "  %s\n" "$(red "--format, -f")"
+    printf "    Format the FILE in the expected .JSON format\n"
+    echo
+
     # :command.usage_fixed_flags
     printf "  %s\n" "$(red "--help, -h")"
     printf "    Show this help\n"
@@ -204,6 +215,7 @@ cvdq_cli_usage() {
     printf "  cvdq-cli -k desc -i IETF\n"
     printf "  cvdq-cli --sort \"glossaire-reseau.json\" --verbose\n"
     printf "  cvdq-cli --add UNESCO\n"
+    printf "  cvdq-cli --format \"glossaire-medecine.json\"\n"
     printf "  cvdq-cli -h\n"
     echo
 
@@ -323,6 +335,48 @@ magenta_underlined() { print_in_color "\e[4;35m" "$*"; }
 cyan_underlined() { print_in_color "\e[4;36m" "$*"; }
 black_underlined() { print_in_color "\e[4;30m" "$*"; }
 white_underlined() { print_in_color "\e[4;37m" "$*"; }
+
+# src/lib/format_json.sh
+format_json() {
+
+    # Check if input .JSON file is correct
+    jq -e . $file > /dev/null
+
+    if [[ $? -ne 0 ]]; then
+        log "File $file is not well formatted"
+        exit 1
+    fi
+
+    tmp=$(mktemp)
+
+    in=$file
+    out=$tmp
+
+    # Passe du format de data.occitanie.education.gouv.fr au format json attendu
+    jq 'reduce .[] as $item ({};
+        .[$item.sigle] = {
+            long_form: $item.definition,
+            desc: ($item.commentaire // $item.domaine),
+            meta: {
+                type: "undefined",
+                source: "https://data.occitanie.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-occitanie-glossaire-sigles-acronymes/exports/json"
+            }
+        })' "$in" > "$out"
+
+    jq -e . $out > /dev/null
+
+    if [[ $? -ne 0 ]]; then
+        log "File $file is not well formatted"
+        exit 1
+    else
+        # Crée un backup
+        mv $in $file.bkp
+
+        # Remplace le fichier d'origine
+        mv $out $in
+    fi
+
+}
 
 # src/lib/get_attribute.sh
 get_attribute(){
@@ -615,6 +669,14 @@ parse_requirements() {
 
         # :flag.case_no_arg
         args['--sort']=1
+        shift
+        ;;
+
+      # :flag.case
+      --format | -f)
+
+        # :flag.case_no_arg
+        args['--format']=1
         shift
         ;;
 
