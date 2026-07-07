@@ -1,6 +1,6 @@
-% cvdq-cli(1) Version 0.1.0 | Traducteur d'acronymes et de sigles
+% cvdq-cli(1) Version 1.2.0 | Traducteur d'acronymes et de sigles
 % BuzzRage
-% June 2026
+% July 2026
 
 NAME
 ==================================================
@@ -10,7 +10,7 @@ NAME
 SYNOPSIS
 ==================================================
 
-**cvdq-cli** ITEM [OPTIONS]
+**cvdq-cli** [FILE] [OPTIONS]
 
 DESCRIPTION
 ==================================================
@@ -21,20 +21,26 @@ Traducteur d'acronymes et de sigles
 ARGUMENTS
 ==================================================
 
-ITEM
+FILE
 --------------------------------------------------
 
-item to look for in the glossary
+.JSON file to load as a glossary
 
-- *Required*
+- Default Value: **glossaire.json**
 
 OPTIONS
 ==================================================
 
---key, -k ATTRIBUTE
+--add, -a NEW_ITEM
 --------------------------------------------------
 
-Key of the attribute to look for in the .JSON file (default: "desc")
+New Item to add in FILE
+
+
+--key, -k KEY
+--------------------------------------------------
+
+Key of the attribute to look for in the .JSON file
 
 - Default Value: **desc**
 
@@ -50,12 +56,17 @@ Set verbose output to true
 item to look for in the .JSON file
 
 
---file, -f JSON
+--sort, -s
 --------------------------------------------------
 
-.JSON file to load as a glossary (default: "glossaire.json")
+Sort the .JSON
 
-- Default Value: **glossaire.json**
+
+--format, -f
+--------------------------------------------------
+
+Format the FILE in the expected .JSON format
+
 
 ENVIRONMENT VARIABLES
 ==================================================
@@ -70,11 +81,15 @@ EXAMPLES
 ==================================================
 
 ~~~
-cvdq-cli SNCF
+cvdq-cli "glossaire-reseau.json" -i IETF
 
-cvdq-cli -f "glossaire-reseau.json" IETF
+cvdq-cli -k desc -i IETF
 
-cvdq-cli -k desc IETF
+cvdq-cli --sort "glossaire-reseau.json" --verbose
+
+cvdq-cli --add UNESCO
+
+cvdq-cli --format "glossaire-medecine.json"
 
 cvdq-cli -h
 
