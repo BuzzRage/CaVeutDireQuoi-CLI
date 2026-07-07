@@ -17,8 +17,9 @@ root_command() {
   # Available keys
   declare -g -A keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.source' )
   declare -g selected_key=${args[--key]}
-  declare -g item=${args[item]}
-  declare -g file=${args[--file]}
+  declare -g item=${args[--item]}
+  declare -g file=${args['FILE']}
+  declare -g NEW_ITEM=${args['--add']}
 
   # #
 
@@ -109,6 +110,24 @@ root_command() {
 
   log "$item $file $selected_key"
 
+  if [[ ${args[--format]} ]]; then
+      format_json
+      echo "$file is formatted."
+      exit 0
+  fi
+
+  if [[ ${args[--sort]} ]]; then
+      sort_json
+      echo "$file is sorted"
+      exit 0
+  fi
+
+  if [[ ${args[--add]} ]]; then
+      add_entry
+      echo "$NEW_ITEM is added to $file"
+      exit 0
+  fi
+
   echo "$item : $(get_attribute)"
 
 }
@@ -123,7 +142,7 @@ cvdq_cli_usage() {
   printf "cvdq-cli - Traducteur d'acronymes et de sigles\n\n"
 
   printf "%s\n" "$(green_bold "Usage:")"
-  printf "  cvdq-cli \033[0;31m ITEM \033[0m [OPTIONS]\n"
+  printf "  cvdq-cli [FILE] [OPTIONS]\n"
   printf "  cvdq-cli --help | -h\n"
   printf "  cvdq-cli --version\n"
   echo
@@ -135,9 +154,14 @@ cvdq_cli_usage() {
 
     # :command.usage_flags
     # :flag.usage
+    printf "  %s\n" "$(red "--add, -a NEW_ITEM")"
+    printf "    New Item to add in FILE\n"
+    echo
+
+    # :flag.usage
     printf "  %s\n" "$(red "--key, -k KEY")"
     printf "    Key of the attribute to look for in the .JSON file\n"
-    printf "    %s\n" "Default: $(cyan "desc")"
+    printf "    %s\n" "Default: desc"
     echo
 
     # :flag.usage
@@ -151,9 +175,13 @@ cvdq_cli_usage() {
     echo
 
     # :flag.usage
-    printf "  %s\n" "$(red "--file, -f FILE")"
-    printf "    .JSON file to load as a glossary\n"
-    printf "    %s\n" "Default: $(cyan "glossaire.json")"
+    printf "  %s\n" "$(red "--sort, -s")"
+    printf "    Sort the .JSON\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--format, -f")"
+    printf "    Format the FILE in the expected .JSON format\n"
     echo
 
     # :command.usage_fixed_flags
@@ -168,8 +196,9 @@ cvdq_cli_usage() {
     printf "%s\n" "$(green_bold "Arguments:")"
 
     # :argument.usage
-    printf "  %s\n" "$(yellow "ITEM")"
-    printf "    item to look for in the glossary\n"
+    printf "  %s\n" "$(yellow "FILE")"
+    printf "    .JSON file to load as a glossary\n"
+    printf "    %s\n" "Default: glossaire.json"
     echo
 
     # :command.usage_environment_variables
@@ -182,9 +211,11 @@ cvdq_cli_usage() {
 
     # :command.usage_examples
     printf "%s\n" "$(green_bold "Examples:")"
-    printf "  cvdq-cli SNCF\n"
-    printf "  cvdq-cli -f \"glossaire-reseau.json\" IETF\n"
-    printf "  cvdq-cli -k desc IETF\n"
+    printf "  cvdq-cli \"glossaire-reseau.json\" -i IETF\n"
+    printf "  cvdq-cli -k desc -i IETF\n"
+    printf "  cvdq-cli --sort \"glossaire-reseau.json\" --verbose\n"
+    printf "  cvdq-cli --add UNESCO\n"
+    printf "  cvdq-cli --format \"glossaire-medecine.json\"\n"
     printf "  cvdq-cli -h\n"
     echo
 
@@ -305,6 +336,48 @@ cyan_underlined() { print_in_color "\e[4;36m" "$*"; }
 black_underlined() { print_in_color "\e[4;30m" "$*"; }
 white_underlined() { print_in_color "\e[4;37m" "$*"; }
 
+# src/lib/format_json.sh
+format_json() {
+
+    # Check if input .JSON file is correct
+    jq -e . $file > /dev/null
+
+    if [[ $? -ne 0 ]]; then
+        log "File $file is not well formatted"
+        exit 1
+    fi
+
+    tmp=$(mktemp)
+
+    in=$file
+    out=$tmp
+
+    # Passe du format de data.occitanie.education.gouv.fr au format json attendu
+    jq 'reduce .[] as $item ({};
+        .[$item.sigle] = {
+            long_form: $item.definition,
+            desc: ($item.commentaire // $item.domaine),
+            meta: {
+                type: "undefined",
+                source: "https://data.occitanie.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-occitanie-glossaire-sigles-acronymes/exports/json"
+            }
+        })' "$in" > "$out"
+
+    jq -e . $out > /dev/null
+
+    if [[ $? -ne 0 ]]; then
+        log "File $file is not well formatted"
+        exit 1
+    else
+        # Crée un backup
+        mv $in $file.bkp
+
+        # Remplace le fichier d'origine
+        mv $out $in
+    fi
+
+}
+
 # src/lib/get_attribute.sh
 get_attribute(){
 
@@ -318,6 +391,41 @@ get_attribute(){
 
     printf "%s\n" "$ATTR"
 
+}
+
+set_attribute(){
+    # TODO
+    echo "TODO"
+}
+
+add_entry(){
+        echo "=== Fichier : $(cyan "$file") <- Ajout de l'entrée : $(red "$NEW_ITEM") ==="
+        read -rp "$(green long_form) : "    LONG_FORM ; keys['long_form']=$LONG_FORM
+        read -rp "$(green desc) : "         DESC      ; keys['desc']=$DESC
+        read -rp "$(green type) : "         TYPE      ; keys['meta.type']=$TYPE
+        read -rp "$(green source) : "       SOURCE    ; keys['meta.source']=$SOURCE
+
+        # Construit le JSON en échappant proprement les caractères spéciaux
+        json=$(  jq -n \
+            --arg key "$NEW_ITEM" \
+            --arg long_form "${keys['long_form']}" \
+            --arg desc "${keys['desc']}" \
+            --arg type "${keys['meta.type']}" \
+            --arg source "${keys['meta.source']}" \
+            '{($key): {long_form: $long_form, desc: $desc, meta: {type: $type, source: $source}}}')
+
+        if [[ -f "$file" ]]; then
+            tmp="$(mktemp)"
+            jq --argjson new "$json" '. * $new' "$file" > "$tmp"
+            mv "$tmp" "$file"
+            sort_json
+            log "Ajout/merge effectué dans: $file"
+        else
+            echo "$json" > "$file"
+            log "Fichier créé: $file"
+        fi
+        echo "Contenu ajouté:"
+        echo "$json" | jq .
 }
 
 # src/lib/log.sh
@@ -348,7 +456,7 @@ cvdq_cli_usage() {
   printf "cvdq-cli - Traducteur d'acronymes et de sigles\n\n"
 
   printf "%s\n" "$(green_bold "Usage:")"
-  printf "  cvdq-cli \033[0;31m ITEM \033[0m [OPTIONS]\n"
+  printf "  cvdq-cli [FILE] [OPTIONS]\n"
   printf "  cvdq-cli --help | -h\n"
   printf "  cvdq-cli --version\n"
   echo
@@ -360,8 +468,13 @@ cvdq_cli_usage() {
 
     # :command.usage_flags
     # :flag.usage
-    printf "  %s\n" "$(red "--key, -k ATTRIBUTE")"
-    printf "    Key of the attribute to look for in the .JSON file.\n"
+    printf "  %s\n" "$(red "--add, -a NEW_ITEM")"
+    printf "    New Item to add in FILE\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--key, -k KEY")"
+    printf "    Key of the attribute to look for in the .JSON file\n"
     printf "    %s\n" "Default: $(cyan "desc")"
     echo
 
@@ -376,9 +489,13 @@ cvdq_cli_usage() {
     echo
 
     # :flag.usage
-    printf "  %s\n" "$(red "--file, -f JSON")"
-    printf "    .JSON file to load as a glossary.\n"
-    printf "    %s\n" "Default: $(cyan "glossaire.json")"
+    printf "  %s\n" "$(red "--sort, -s")"
+    printf "    Sort the .JSON\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--format, -f")"
+    printf "    Format the $(yellow "FILE") in the expected .JSON format\n"
     echo
 
     # :command.usage_fixed_flags
@@ -393,8 +510,9 @@ cvdq_cli_usage() {
     printf "%s\n" "$(green_bold "Arguments:")"
 
     # :argument.usage
-    printf "  %s\n" "$(yellow "ITEM")"
-    printf "    item to look for in the glossary\n"
+    printf "  %s\n" "$(yellow "FILE")"
+    printf "    .JSON file to load as a glossary\n"
+    printf "    %s\n" "Default: $(cyan glossaire.json)"
     echo
 
     # :command.usage_environment_variables
@@ -402,18 +520,77 @@ cvdq_cli_usage() {
 
     # :environment_variable.usage
     printf "  %s\n" "$(magenta "DEFAULT_GLOSSARY")"
-    printf "    Set the default glossary file to \"glossaire.json\"\n"
+    printf "    Set the default glossary file to \"$(cyan "glossaire.json")\"\n"
     echo
 
     # :command.usage_examples
     printf "%s\n" "$(green_bold "Examples:")"
-    printf "  cvdq-cli SNCF\n"
-    printf "  cvdq-cli -f \"glossaire-reseau.json\" IETF\n"
-    printf "  cvdq-cli -k desc IETF\n"
+    printf "  cvdq-cli \"$(cyan "glossaire-reseau.json")\" -i $(red "IETF")\n"
+    printf "  cvdq-cli -k $(cyan desc) -i $(red "IETF")\n"
+    printf "  cvdq-cli --sort \"$(cyan "glossaire-reseau.json")\" --verbose\n"
+    printf "  cvdq-cli --add $(red "UNESCO")\n"
+    printf "  cvdq-cli --format \"$(cyan "glossaire-medecine.json")\"\n"
     printf "  cvdq-cli -h\n"
     echo
 
   fi
+}
+
+# src/lib/sort_json.sh
+# Trier par ordre alphabétique
+sort_json(){
+    # Check if .JSON file is correct
+    jq -e . $file > /dev/null
+
+    if [[ $? -ne 0 ]]; then
+        exit 1
+    fi
+
+    tmp=$(mktemp)
+
+    jq '
+    to_entries
+    | map(. as $e
+          | {
+              e: $e,
+              sortkey: ($e.key
+                | gsub("é";"e")
+                | gsub("è";"e")
+                | gsub("ê";"e")
+                | gsub("ë";"e")
+                | gsub("à";"a")
+                | gsub("â";"a")
+                | gsub("ä";"a")
+                | gsub("ç";"c")
+                | gsub("î";"i")
+                | gsub("ï";"i")
+                | gsub("ô";"o")
+                | gsub("ö";"o")
+                | gsub("ù";"u")
+                | gsub("û";"u")
+                | gsub("ü";"u")
+                | gsub("É";"E")
+                | gsub("È";"E")
+                | gsub("Ê";"E")
+                | gsub("Ë";"E")
+                | gsub("À";"A")
+                | gsub("Â";"A")
+                | gsub("Ä";"A")
+                | gsub("Ç";"C")
+                | gsub("Î";"I")
+                | gsub("Ï";"I")
+                | gsub("Ô";"O")
+                | gsub("Ö";"O")
+                | gsub("Ù";"U")
+                | gsub("Û";"U")
+                | gsub("Ü";"U")
+              )
+            })
+    | sort_by(.sortkey, (.e.key))
+    | map(.e)
+    | from_entries
+    ' "$file" > "$tmp"
+    mv "$tmp" "$file"
 }
 
 # :command.command_functions
@@ -421,11 +598,6 @@ cvdq_cli_usage() {
 # :command.parse_requirements
 parse_requirements() {
   local key
-
-  if [ "$#" -eq 0 ]; then
-     cvdq_cli_usage
-  fi
-
 
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -460,6 +632,20 @@ parse_requirements() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
+      # :flag.case
+      --add | -a)
+
+        # :flag.case_arg
+        if [[ -n ${2+x} ]]; then
+          args['--add']="$2"
+          shift
+          shift
+        else
+          printf "%s\n" "--add requires an argument: --add, -a NEW_ITEM" >&2
+          exit 1
+        fi
+        ;;
+
       # :flag.case
       --key | -k)
 
@@ -497,17 +683,19 @@ parse_requirements() {
         ;;
 
       # :flag.case
-      --file | -f)
+      --sort | -s)
 
-        # :flag.case_arg
-        if [[ -n ${2+x} ]]; then
-          args['--file']="$2"
-          shift
-          shift
-        else
-          printf "%s\n" "--file requires an argument: --file, -f FILE" >&2
-          exit 1
-        fi
+        # :flag.case_no_arg
+        args['--sort']=1
+        shift
+        ;;
+
+      # :flag.case
+      --format | -f)
+
+        # :flag.case_no_arg
+        args['--format']=1
+        shift
         ;;
 
       -?*)
@@ -519,8 +707,8 @@ parse_requirements() {
         # :command.parse_requirements_case
         # :command.parse_requirements_case_simple
         # :argument.case
-        if [[ -z ${args['item']+x} ]]; then
-          args['item']=$1
+        if [[ -z ${args['FILE']+x} ]]; then
+          args['FILE']=$1
           shift
         else
           printf "invalid argument: %s\n" "$key" >&2
@@ -532,22 +720,9 @@ parse_requirements() {
     esac
   done
 
-  # :command.required_args_filter
-  if [[ -z ${args['item']+x} ]]; then
-    printf "missing required argument: ITEM\nusage: cvdq-cli ITEM [OPTIONS]\n" >&2
-    # :command.examples_on_error
-    printf "examples:\n" >&2
-    printf "  cvdq-cli SNCF\n" >&2
-    printf "  cvdq-cli -f \"glossaire-reseau.json\" IETF\n" >&2
-    printf "  cvdq-cli -k desc IETF\n" >&2
-    printf "  cvdq-cli -h\n" >&2
-
-    exit 1
-  fi
-
   # :command.default_assignments
+  [[ -n ${args['FILE']:-} ]] || args['FILE']="glossaire.json"
   [[ -n ${args['--key']:-} ]] || args['--key']="desc"
-  [[ -n ${args['--file']:-} ]] || args['--file']="glossaire.json"
 
 }
 

@@ -18,7 +18,7 @@ cvdq_cli_usage() {
   printf "cvdq-cli - Traducteur d'acronymes et de sigles\n\n"
 
   printf "%s\n" "$(green_bold "Usage:")"
-  printf "  cvdq-cli \033[0;31m ITEM \033[0m [OPTIONS]\n"
+  printf "  cvdq-cli [FILE] [OPTIONS]\n"
   printf "  cvdq-cli --help | -h\n"
   printf "  cvdq-cli --version\n"
   echo
@@ -30,8 +30,13 @@ cvdq_cli_usage() {
 
     # :command.usage_flags
     # :flag.usage
-    printf "  %s\n" "$(red "--key, -k ATTRIBUTE")"
-    printf "    Key of the attribute to look for in the .JSON file.\n"
+    printf "  %s\n" "$(red "--add, -a NEW_ITEM")"
+    printf "    New Item to add in FILE\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--key, -k KEY")"
+    printf "    Key of the attribute to look for in the .JSON file\n"
     printf "    %s\n" "Default: $(cyan "desc")"
     echo
 
@@ -43,6 +48,16 @@ cvdq_cli_usage() {
     # :flag.usage
     printf "  %s\n" "$(red "--item, -i ITEM")"
     printf "    item to look for in the .JSON file\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--sort, -s")"
+    printf "    Sort the .JSON\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "$(red "--format, -f")"
+    printf "    Format the $(yellow "FILE") in the expected .JSON format\n"
     echo
 
     # :command.usage_fixed_flags
@@ -57,8 +72,9 @@ cvdq_cli_usage() {
     printf "%s\n" "$(green_bold "Arguments:")"
 
     # :argument.usage
-    printf "  %s\n" "$(yellow "ITEM")"
-    printf "    item to look for in the glossary\n"
+    printf "  %s\n" "$(yellow "FILE")"
+    printf "    .JSON file to load as a glossary\n"
+    printf "    %s\n" "Default: $(cyan glossaire.json)"
     echo
 
     # :command.usage_environment_variables
@@ -71,9 +87,11 @@ cvdq_cli_usage() {
 
     # :command.usage_examples
     printf "%s\n" "$(green_bold "Examples:")"
-    printf "  cvdq-cli $(red "SNCF")\n"
-    printf "  cvdq-cli -f \"$(cyan "glossaire-reseau.json")\" $(red "IETF")\n"
-    printf "  cvdq-cli -k $(cyan desc) $(red "IETF")\n"
+    printf "  cvdq-cli \"$(cyan "glossaire-reseau.json")\" -i $(red "IETF")\n"
+    printf "  cvdq-cli -k $(cyan desc) -i $(red "IETF")\n"
+    printf "  cvdq-cli --sort \"$(cyan "glossaire-reseau.json")\" --verbose\n"
+    printf "  cvdq-cli --add $(red "UNESCO")\n"
+    printf "  cvdq-cli --format \"$(cyan "glossaire-medecine.json")\"\n"
     printf "  cvdq-cli -h\n"
     echo
 
