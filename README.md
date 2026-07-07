@@ -10,7 +10,7 @@ Peut très bien être utilisé à titre personnel ou bien en contexte profession
 
 ## Vérifier le fichier `glossaire.json`
 
-Après avoir ajouté un entrée, attention a bien vérifier que le fichier `.json` est correctemenet formaté.
+Après avoir ajouté une entrée, attention a bien vérifier que le fichier `.json` est correctement formaté.
 
 Pour ce faire:
 ```bash
@@ -35,13 +35,13 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 
 ## TODO
 
-- Réorganiser l'architecture du projet
+- Réorganiser l'architecture du projet (et regeneration auto de la doc, show_usage ne s'update pas)
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
 - Ajout de requirements si dev (ruby / bashly)
 - Rendre insensible à la casse les item
 - Faire que "-k type" soit interprété comme "-k meta.type"
 - Lire config dans un .env ou autre ( faire .env.exemple )
-- Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs
+- Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs (et log les aguments)
 - ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
 - improve color management for docs
