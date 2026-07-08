@@ -36,6 +36,7 @@ format_json() {
 
         # Remplace le fichier d'origine
         mv $out $in
+        sort_json $in
     fi
 
 }

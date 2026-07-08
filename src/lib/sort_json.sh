@@ -1,7 +1,7 @@
 # Trier par ordre alphabétique
 sort_json(){
     # Check if .JSON file is correct
-    jq -e . $file > /dev/null
+    jq -e . "$1" > /dev/null
 
     if [[ $? -ne 0 ]]; then
         exit 1
@@ -51,6 +51,6 @@ sort_json(){
     | map(.e)
     | from_entries
     ' "$file" > "$tmp"
-    mv "$tmp" "$file"
+    mv "$tmp" "$1"
 }
 

@@ -47,4 +47,4 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs (et log les aguments)
 - ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
 - improve color management for docs
-- trier dans l'ordre alphabétique après le formattage
+- Les fonctions doivent prendre des arguments plutôt que d'utiliser des variables globales

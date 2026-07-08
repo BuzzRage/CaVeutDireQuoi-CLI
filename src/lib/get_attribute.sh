@@ -46,7 +46,7 @@ add_entry(){
             tmp="$(mktemp)"
             jq --argjson new "$json" '. * $new' "$file" > "$tmp"
             mv "$tmp" "$file"
-            sort_json
+            sort_json $file
             log "Ajout/merge effectué dans: $file"
         else
             echo "$json" > "$file"

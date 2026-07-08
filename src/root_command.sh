@@ -111,7 +111,7 @@ if [[ ${args[--format]} ]]; then
 fi
 
 if [[ ${args[--sort]} ]]; then
-    sort_json
+    sort_json $file
     echo "$file is sorted"
     exit 0
 fi
