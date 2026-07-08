@@ -18,7 +18,13 @@ root_command() {
   declare -g -A keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.source' )
   declare -g selected_key=${args[--key]}
   declare -g item=${args[--item]}
-  declare -g file=${args['FILE']}
+
+  if [[ -n "${args['FILE']:-}" ]]; then
+      declare -g file=${args['FILE']}
+  else
+      declare -g file=$DEFAULT_GLOSSARY
+  fi
+
   declare -g NEW_ITEM=${args['--add']}
 
   # #
@@ -110,6 +116,11 @@ root_command() {
 
   log "$item $file $selected_key"
 
+  if [[ ${args[--remote]} ]]; then
+      remote_json
+      exit 0
+  fi
+
   if [[ ${args[--format]} ]]; then
       format_json
       echo "$file is formatted."
@@ -128,7 +139,10 @@ root_command() {
       exit 0
   fi
 
-  echo "$item : $(get_attribute)"
+  if [[ ${args[--item]} ]]; then
+      print_attribute
+      exit 0
+  fi
 
 }
 
@@ -184,6 +198,13 @@ cvdq_cli_usage() {
     printf "    Format the FILE in the expected .JSON format\n"
     echo
 
+    # :flag.usage
+    printf "  %s\n" "$(red "--remote, -r")"
+    printf "    Specify the remote JSON file to work with\n"
+    printf "    %s\n" "Needs: --item"
+    printf "    %s\n" "Conflicts: --sort, --format, --add"
+    echo
+
     # :command.usage_fixed_flags
     printf "  %s\n" "$(red "--help, -h")"
     printf "    Show this help\n"
@@ -198,7 +219,6 @@ cvdq_cli_usage() {
     # :argument.usage
     printf "  %s\n" "$(yellow "FILE")"
     printf "    .JSON file to load as a glossary\n"
-    printf "    %s\n" "Default: glossaire.json"
     echo
 
     # :command.usage_environment_variables
@@ -207,10 +227,18 @@ cvdq_cli_usage() {
     # :environment_variable.usage
     printf "  %s\n" "$(magenta "DEFAULT_GLOSSARY")"
     printf "    Set the default glossary file to \"glossaire.json\"\n"
+    printf "    %s\n" "Default: json/glossaire.json"
+    echo
+
+    # :environment_variable.usage
+    printf "  %s\n" "$(magenta "REMOTE_SOURCE")"
+    printf "    Set the remote JSON source\n"
+    printf "    %s\n" "Default: https://data.occitanie.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-occitanie-glossaire-sigles-acronymes/exports/json"
     echo
 
     # :command.usage_examples
     printf "%s\n" "$(green_bold "Examples:")"
+    printf "  REMOTE_SOURCE=\"https://myurl.org/api/explore/catalog/datasets/glossaire-sigles-acronymes/exports/json\"\n  cvdq-cli -i IETF --remote\n"
     printf "  cvdq-cli \"glossaire-reseau.json\" -i IETF\n"
     printf "  cvdq-cli -k desc -i IETF\n"
     printf "  cvdq-cli --sort \"glossaire-reseau.json\" --verbose\n"
@@ -382,15 +410,23 @@ format_json() {
 get_attribute(){
 
     # jq returns null if key absent (empty) ; -r to get raw string ; split the argument key "meta.type" in an array (splitted by dot '.') as ["meta","type"] ; Then reduce ARRAY[] as $p ( INIT; UPDATE )
-    ATTR=$(jq -r --arg item "$item" --arg key $selected_key 'reduce ($key | split("."))[] as $p (.[$item]; if . == null then null else .[$p] end) // empty' "$file")
+    ATTR=$(jq -r --arg item "$item" --arg key "$1" 'reduce ($key | split("."))[] as $p (.[$item]; if . == null then null else .[$p] end) // empty' "$file")
 
     if [ -z "$ATTR" ]; then
-        echo "No output found for attribute '$selected_key' for item '$item'" >&2
+        echo "No output found for attribute '$1' for item '$item'" >&2
         exit 1
     fi
 
     printf "%s\n" "$ATTR"
+}
 
+print_attribute(){
+    echo "$item : $(get_attribute "long_form")"
+    echo "$(get_attribute "desc")"
+
+    if [[ "$selected_key" != "desc" && "$selected_key" != "long_form" ]]; then
+        echo "$selected_key : $(get_attribute "$selected_key")"
+    fi
 }
 
 set_attribute(){
@@ -433,6 +469,38 @@ log(){
     if [ "$verbose" == true ]; then
         echo $@
     fi
+}
+
+# src/lib/remote_json.sh
+remote_json() {
+
+    tmp_in=$(mktemp)
+    tmp_out=$(mktemp)
+
+    curl -s $REMOTE_SOURCE > $tmp_in
+
+    # Passe du format de data.occitanie.education.gouv.fr au format json attendu
+    jq 'reduce .[] as $item ({};
+        .[$item.sigle] = {
+            long_form: $item.definition,
+            desc: ($item.commentaire // $item.domaine),
+            meta: {
+                type: "undefined",
+                source: "https://data.occitanie.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-occitanie-glossaire-sigles-acronymes/exports/json"
+            }
+        })' "$tmp_in" > "$tmp_out"
+
+    jq -e . $tmp_out > /dev/null
+
+    if [[ $? -ne 0 ]]; then
+        log "Remote file $REMOTE_SOURCE is not well formatted"
+        exit 1
+    else
+        file=$tmp_out
+        print_attribute
+        rm $tmp_out $tmp_in
+    fi
+
 }
 
 # src/lib/show_usage.sh
@@ -622,8 +690,12 @@ parse_requirements() {
   done
 
   # :command.environment_variables_filter
+  # :command.environment_variables_default
+  export DEFAULT_GLOSSARY="${DEFAULT_GLOSSARY:-json/glossaire.json}"
+  export REMOTE_SOURCE="${REMOTE_SOURCE:-https://data.occitanie.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-occitanie-glossaire-sigles-acronymes/exports/json}"
 
   env_var_names+=("DEFAULT_GLOSSARY")
+  env_var_names+=("REMOTE_SOURCE")
 
   # :command.command_filter
   action="root"
@@ -698,6 +770,21 @@ parse_requirements() {
         shift
         ;;
 
+      # :flag.case
+      --remote | -r)
+        # :flag.conflicts
+        for conflict in --sort --format --add; do
+          if [[ -n "${args[$conflict]:-}" ]]; then
+            printf "conflicting options: %s cannot be used with %s\n" "$key" "$conflict" >&2
+            exit 1
+          fi
+        done
+
+        # :flag.case_no_arg
+        args['--remote']=1
+        shift
+        ;;
+
       -?*)
         printf "invalid option: %s\n" "$key" >&2
         exit 1
@@ -720,8 +807,14 @@ parse_requirements() {
     esac
   done
 
+  # :command.needy_flags_filter
+  # :flag.needs
+  if [[ -n ${args['--remote']+x} ]] && [[ -z "${args[--item]:-}" ]]; then
+    printf "%s\n" "--remote needs --item" >&2
+    exit 1
+  fi
+
   # :command.default_assignments
-  [[ -n ${args['FILE']:-} ]] || args['FILE']="glossaire.json"
   [[ -n ${args['--key']:-} ]] || args['--key']="desc"
 
 }
@@ -730,6 +823,10 @@ parse_requirements() {
 initialize() {
   declare -g version="1.2.0"
   set -e
+
+  # :command.environment_variables_default
+  export DEFAULT_GLOSSARY="${DEFAULT_GLOSSARY:-json/glossaire.json}"
+  export REMOTE_SOURCE="${REMOTE_SOURCE:-https://data.occitanie.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-occitanie-glossaire-sigles-acronymes/exports/json}"
 
 }
 

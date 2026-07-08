@@ -1,11 +1,11 @@
 get_attribute(){
 
     # jq returns null if key absent (empty) ; -r to get raw string ; split the argument key "meta.type" in an array (splitted by dot '.') as ["meta","type"] ; Then reduce ARRAY[] as $p ( INIT; UPDATE )
-    ATTR=$(jq -r --arg item "$item" --arg key $selected_key 'reduce ($key | split("."))[] as $p (.[$item]; if . == null then null else .[$p] end) // empty' "$file")
+    ATTR=$(jq -r --arg item "$item" --arg key "$1" 'reduce ($key | split("."))[] as $p (.[$item]; if . == null then null else .[$p] end) // empty' "$file")
 
 
     if [ -z "$ATTR" ]; then
-        echo "No output found for attribute '$selected_key' for item '$item'" >&2
+        echo "No output found for attribute '$1' for item '$item'" >&2
         exit 1
     fi
 
@@ -13,7 +13,12 @@ get_attribute(){
 }
 
 print_attribute(){
-    echo "$item : $(get_attribute)"
+    echo "$item : $(get_attribute "long_form")"
+    echo "$(get_attribute "desc")"
+
+    if [[ "$selected_key" != "desc" && "$selected_key" != "long_form" ]]; then
+        echo "$selected_key : $(get_attribute "$selected_key")"
+    fi
 }
 
 set_attribute(){

@@ -42,9 +42,9 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 - Ajout de requirements si dev (ruby / bashly)
 - Rendre insensible à la casse les item
 - Faire que "-k type" soit interprété comme "-k meta.type"
+- Afficher la liste des key que l'utilisateur peut demander
 - Lire config dans un .env ou autre ( faire .env.exemple )
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs (et log les aguments)
 - ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
 - improve color management for docs
 - trier dans l'ordre alphabétique après le formattage
-- faire que sans l'option 'k' on donne long_form et description
