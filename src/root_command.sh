@@ -9,7 +9,13 @@
 declare -g -A keys=("short_form" "long_form" "desc" "meta" 'meta.type' 'meta.source' )
 declare -g selected_key=${args[--key]}
 declare -g item=${args[--item]}
-declare -g file=${args['FILE']}
+
+if [[ -n "${args['FILE']:-}" ]]; then
+    declare -g file=${args['FILE']}
+else
+    declare -g file=$DEFAULT_GLOSSARY
+fi
+
 declare -g NEW_ITEM=${args['--add']}
 
 
@@ -93,6 +99,11 @@ fi
 
 log "$item $file $selected_key"
 
+if [[ ${args[--remote]} ]]; then
+    remote_json
+    exit 0
+fi
+
 if [[ ${args[--format]} ]]; then
     format_json
     echo "$file is formatted."
@@ -111,6 +122,10 @@ if [[ ${args[--add]} ]]; then
     exit 0
 fi
 
-echo "$item : $(get_attribute)"
+if [[ ${args[--item]} ]]; then
+    print_attribute
+    exit 0
+fi
+
 
 

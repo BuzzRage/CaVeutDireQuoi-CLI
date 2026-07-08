@@ -10,8 +10,10 @@ get_attribute(){
     fi
 
     printf "%s\n" "$ATTR"
+}
 
-
+print_attribute(){
+    echo "$item : $(get_attribute)"
 }
 
 set_attribute(){

@@ -35,6 +35,7 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 
 ## TODO
 
+- Améliorer la sortie de "cvdq-cli FILE -i ITEM" (ajout couleur, espace, mise en forme etc..)
 - Regeneration auto de la doc (les couleurs du show_usage ne s'update pas)
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
@@ -45,3 +46,5 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 - Améliorer le mode verbose pour horodater et exprimer des niveaux d'erreurs (et log les aguments)
 - ajout d'une option "-all" pour afficher toutes les infos d'un item (item : long_form : desc : type)
 - improve color management for docs
+- trier dans l'ordre alphabétique après le formattage
+- faire que sans l'option 'k' on donne long_form et description

@@ -13,7 +13,6 @@ x_mandoc_footer: |-
 args:
 - name: FILE
   help: '.JSON file to load as a glossary'
-  default: "glossaire.json"
 
 flags:
 - long: --add
@@ -44,7 +43,14 @@ flags:
   short: -f
   help: "Format the FILE in the expected .JSON format"
 
+- long: --remote
+  short: -r
+  conflicts: [--sort, --format, --add]
+  needs: [--item]
+  help: "Specify the remote JSON file to work with"
+
 examples:
+- REMOTE_SOURCE="https://myurl.org/api/explore/catalog/datasets/glossaire-sigles-acronymes/exports/json" cvdq-cli -i IETF --remote
 - cvdq-cli "glossaire-reseau.json" -i IETF
 - cvdq-cli -k desc -i IETF
 - cvdq-cli --sort "glossaire-reseau.json" --verbose
@@ -55,4 +61,9 @@ examples:
 environment_variables:
 - name: default_glossary
   help: Set the default glossary file to "glossaire.json"
+  default: "json/glossaire.json"
+
+- name : remote_source
+  help: Set the remote JSON source
+  default: "https://data.occitanie.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-occitanie-glossaire-sigles-acronymes/exports/json"
 
