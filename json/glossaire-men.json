@@ -31,6 +31,14 @@
       "source": "glossaire-men.json"
     }
   },
+  "EA": {
+    "long_form": "Épreuves Anticipées du BAC",
+    "desc": "Épreuves de preimmière année du BAC (français, histoire etc..)",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire-men.json"
+    }
+  },
   "ÉPIC": {
     "long_form": "Établissement Publique à caractère Industriel et Commercial",
     "desc": "En France, un établissement public à caractère industriel et commercial (ou EPIC) est une personne morale de droit public ayant pour but la gestion d'une activité de service public de nature industrielle et commerciale (bien qu’il puisse aussi assurer la gestion d’un service public administratif : il s’agit alors d’un établissement public Janus). .",
@@ -87,6 +95,14 @@
       "source": "glossaire.json"
     }
   },
+  "RSO": {
+    "long_form": "Réseaux et Sécurité Opérationelle",
+    "desc": "Equipe Nationale Réseaux et Sécurité Opérationnelle",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire-men.json"
+    }
+  },
   "SNCF": {
     "long_form": "Société Nationale des Chemins de fer Français",
     "desc": "La Société nationale des chemins de fer français — usuellement appelée SNCF — est l'entreprise ferroviaire publique française, créée le 1er janvier 1938 par convention entre l'État et les compagnies de chemin de fer préexistantes, en application du décret-loi du 31 août 1937.",
@@ -112,5 +128,3 @@
     }
   }
 }
-
-
