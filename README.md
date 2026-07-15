@@ -3,7 +3,7 @@
 ## Ça veut dire quoi ? - Command Line Interface  (cvdq-cli) 
 
 Outil pour expliquer les sigles et les abbréviations.
-Le fichier peut être personnalisable pour ajouter des éléments.
+Le fichier peut être personnalisable pour ajouter des éléments (manuellement dans le .JSON ou via l'outil).
 Peut très bien être utilisé à titre personnel ou bien en contexte professionnel pour rapidement retrouver le sens du jargon technique et organisationnel de votre milieu professionnel.
 
 <img width="559" height="860" alt="image" src="https://github.com/user-attachments/assets/63e491d2-550d-4c67-a615-7a30af0370fa" />
@@ -36,7 +36,7 @@ cvdq-cli --add UNESCO glossaire-ONU.json
 ## TODO
 
 - Améliorer la sortie de "cvdq-cli FILE -i ITEM" (ajout couleur, espace, mise en forme etc..)
-- Regeneration auto de la doc (les couleurs du show_usage ne s'update pas)
+- Regeneration auto de la doc (les couleurs du show_usage ne s'update pas) ou l'intégrer lors du rebuild
 - Permettre de sourcer via un site externe (wikipedia ou autres)
 - Ajout d'une fonction pour mettre dans le path ou dans /usr/bin/local
 - Ajout de requirements si dev (ruby / bashly)
