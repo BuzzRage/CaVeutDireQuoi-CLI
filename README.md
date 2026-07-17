@@ -10,12 +10,18 @@ Peut très bien être utilisé à titre personnel ou bien en contexte profession
 
 ## Vérifier le fichier `glossaire.json`
 
-Après avoir ajouté une entrée, attention a bien vérifier que le fichier `.json` est correctement formaté.
+Après avoir ajouté une entrée (directement dans le .JSON), attention à bien vérifier que le fichier `.json` est correctement formaté.
 
 Pour ce faire:
 ```bash
 jq -e . glossaire.json
-``` 
+```
+
+## Ajouter une entrée
+
+```bash
+cvdq-cli --add UNESCO glossaire-ONU.json
+```
 
 ## Trier un glossaire par ordre alphabétique
 ```bash
@@ -27,11 +33,7 @@ cvdq-cli --sort FILE
 ```bash
 man docs/cvdq-cli.1 
 ```
-## Ajouter une entrée
 
-```bash
-cvdq-cli --add UNESCO glossaire-ONU.json
-```
 
 ## TODO
 
