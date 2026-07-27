@@ -87,6 +87,14 @@
       "source": "glossaire.json"
     }
   },
+  "PHM": {
+    "long_form": "Plateforme d'Hébergement Mutualisé",
+    "desc": "La Plateforme d'Hébergement Mutualisé est une plateforme mutualisé entre le Ministère de l'Éducation Nationale et le Ministère de l'Agriculture.",
+    "meta": {
+      "type": "sigle",
+      "source": "glossaire-men.json"
+    }
+  },
   "RFC": {
     "long_form": "Requests for comments",
     "desc": "Les Requests for comments (RFC), littéralement « demandes de commentaires », sont une série numérotée de documents décrivant les aspects et spécifications techniques d'Internet, ou de différents matériels informatiques (routeurs, serveur DHCP). Peu de RFC sont des standards, mais tous les documents publiés par l'IETF sont des RFC.",
